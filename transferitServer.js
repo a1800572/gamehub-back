@@ -54,10 +54,20 @@ app.post('/transfer/add', (req, res, next) => {
     });
 })
 
+//poista transfer databasesta
 app.get('/transfer/delete/:id', (req, res, next) => {
     let id = req.params.id;
     db.run('DELETE FROM transfer WHERE id = ?', [id], function (error, result) {
         if (error) throw error;
         return res.status(200).json(result);
+    });
+})
+
+//muokkaa trasferia
+app.post("/transfer/edit/:id", (req, res) => {
+    const id = req.params.id;
+    db.run("UPDATE transfer SET username = ?, money = ?, credit = ? WHERE (id = ?)", [req.body.username, req.body.money, req.body.credit, id], (error, result) => {
+        if (error) throw error;
+        return res.status(200).json();
     });
 })
